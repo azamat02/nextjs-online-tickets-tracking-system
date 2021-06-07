@@ -6,6 +6,7 @@ import Spinner from "../../components/spinner/spinner";
 import axios from "axios";
 import swal from "sweetalert";
 import Router from "next/router";
+import Footer from "../../components/footer/footer";
 
 export default function ReqPage({userData}) {
     const [email, setEmail] = useState('');

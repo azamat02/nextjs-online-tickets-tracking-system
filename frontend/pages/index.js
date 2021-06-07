@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Navbar from "../components/navbar/navbar";
 import {ChevronDownIcon, ClockIcon, FolderIcon, LocationMarkerIcon, UserGroupIcon} from "@heroicons/react/outline";
+import Footer from "../components/footer/footer";
 
 
 export default function Home({userData}) {
@@ -69,7 +70,7 @@ export default function Home({userData}) {
                                     </div>
                                     <div className="title text-gray-600 flex mt-5 items-center font-bold text-xl">
                                         <LocationMarkerIcon className="w-7 h-7 mr-2"/>
-                                        <span>Crocus city hall</span>
+                                        <span>Grand hall</span>
                                     </div>
                                 </div>
                             </div>
@@ -87,15 +88,16 @@ export default function Home({userData}) {
                                     </div>
                                     <div className="title text-gray-600 flex mt-5 items-center font-bold text-xl">
                                         <LocationMarkerIcon className="w-7 h-7 mr-2"/>
-                                        <span>Grand hall</span>
+                                        <span>Crocus city hall</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </main>
+            {/*Footer of page*/}
+            <Footer/>
         </>
     )
 }

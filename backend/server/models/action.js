@@ -10,8 +10,20 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
+    img: {
+        type: String,
+        required: true
+    },
     date: {
-        type: Date,
+        type: String,
+        required: true
+    },
+    location: {
+        type: String,
         required: true
     },
     cost: {

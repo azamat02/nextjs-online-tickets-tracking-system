@@ -14,12 +14,14 @@ import {useEffect, useState} from "react";
 import {act} from "react-dom/test-utils";
 import axios from "axios";
 import Spinner from "../../components/spinner/spinner";
+import AnalyticsChart from "../../components/chart/analytics-chart";
 
 
 export default function Action({userData, actionJson}) {
     const router = useRouter()
     const id = router.query.id
     const [action, setAction] = useState(actionJson)
+    const [days, setDays] = useState(10)
 
     if (!action) {
         return (
@@ -66,7 +68,27 @@ export default function Action({userData, actionJson}) {
                         </div>
                     </div>
                 </header>
-
+                {/*Tickets analytics chart*/}
+                <div className="mb-44">
+                    <h1 className="font-bold text-2xl text-gray-900 my-5 border-l-4 px-5 py-2 bg-gray-200 mb-2 border-gray-900">
+                        Аналитика билетов за последние 10 дней
+                    </h1>
+                    <div className="my-5">
+                        <button onClick={()=>setDays(10)} className={`${days === 10 ? `bg-blue-800`: ``} focus:outline-none hover:bg-blue-400 transition font-bold text-white px-8 py-2 bg-blue-500 rounded-md mr-5`}>
+                            10 дней
+                        </button>
+                        <button onClick={()=>setDays(30)} className={`${days === 30 ? `bg-blue-800`: ``} focus:outline-none hover:bg-blue-400 transition font-bold text-white px-8 py-2 bg-blue-500 rounded-md mr-5`}>
+                            30 дней
+                        </button>
+                        <button onClick={()=>setDays(45)} className={`${days === 45 ? `bg-blue-800`: ``} focus:outline-none hover:bg-blue-400 transition font-bold text-white px-8 py-2 bg-blue-500 rounded-md mr-5`}>
+                            45 дней
+                        </button>
+                        <button onClick={()=>setDays(60)} className={`${days === 60 ? `bg-blue-800`: ``} focus:outline-none hover:bg-blue-400 transition font-bold text-white px-8 py-2 bg-blue-500 rounded-md mr-5`}>
+                            60 дней
+                        </button>
+                    </div>
+                    <AnalyticsChart analyticData={{}} daysCount={days}/>
+                </div>
             </main>
             {/*Footer of page*/}
             <Footer/>

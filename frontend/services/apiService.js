@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default class ApiService {
     constructor() {
-        this._apiBase = `http://localhost:4200/api`;
+        this._apiBase = `http://89.223.24.146:4200/api`;
     }
 
     getAction = async (id) => {

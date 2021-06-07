@@ -34,7 +34,7 @@ export default function Action({userData, actionJson}) {
     return (
         <>
             <Head>
-                <title>Главная страница</title>
+                <title>Событие - {action.title}</title>
             </Head>
             <main className="px-44">
                 {/*Navbar*/}

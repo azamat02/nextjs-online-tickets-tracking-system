@@ -12,10 +12,21 @@ import ApiService from "../../services/apiService";
 export default function ReqPage({userData}) {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [login, setLogin] = useState('');
     const [pass, setPass] = useState('');
     const [spinner, setSpinner] = useState(null)
     let api = new ApiService()
+
+    // Errors
+    const [emailErr, setEmailErr] = useState(false)
+    const [nameErr, setNameErr] = useState(false)
+    const [passErr, setPassErr] = useState(false)
+    const [phoneErr, setPhoneErr] = useState(false)
+    const [loginErr, setLoginErr] = useState(false)
+
+    let errorClass = 'ring-2 ring-red-500'
+    let blockedButton = 'bg-gray-400 hover:bg-gray-400'
 
     useEffect(()=>{
         if (userData !== null){
@@ -27,16 +38,57 @@ export default function ReqPage({userData}) {
         }
     })
 
+    let changeData = (e, type)=>{
+        let inputValue = e.target.value
+        if (type === 'email'){
+            if (inputValue.length < 6) {
+                setEmailErr('Длина почты должна быть не менее 6 символов')
+            } else {
+                setEmailErr(false)
+            }
+            setEmail(inputValue)
+        }
+        if (type === 'name'){
+            let nameCheck = /^[A-Za-zА-Яа-я]+$/;
+            if (!nameCheck.test(inputValue)) {
+                setNameErr('Имя должно содержать только буквы.')
+            } else {
+                setNameErr(false)
+            }
+            setName(inputValue)
+        }
+        if (type === 'login'){
+            if (inputValue.length < 6) {
+                setLoginErr('Длина логина должна быть не менее 6 символов')
+            } else {
+                setLoginErr(false)
+            }
+            setLogin(inputValue)
+        }
+        if (type === 'phone'){
+            setPhone(inputValue)
+        }
+        if (type === 'pass'){
+            if (inputValue.length < 6) {
+                setPassErr('Длина пароля должна быть не менее 6 символов')
+            } else {
+                setPassErr(false)
+            }
+            setPass(inputValue)
+        }
+    }
+
     let submit = async (e) =>{
         e.preventDefault()
 
-        if (email.length != 0 && name.length != 0 && login.length !=0 && pass.length != 0){
+        if (email.length != 0 && name.length != 0 && login.length !=0 && pass.length != 0 && pass.length !=0){
 
             let userData = {
                 login: login,
                 password: pass,
                 name: name,
-                email: email
+                email: email,
+                phone: phone
             }
 
             setSpinner(
@@ -60,29 +112,44 @@ export default function ReqPage({userData}) {
         }
     }
 
+    let emailErrBlock = emailErr ? (<p className={`text-red-500 font-bold my-1`}>{emailErr}</p>) : null
+    let nameErrBlock = nameErr ? (<p className={`text-red-500 font-bold my-1`}>{nameErr}</p>) : null
+    let passErrBlock = passErr ? (<p className={`text-red-500 font-bold my-1`}>{passErr}</p>) : null
+    let loginErrBlock = loginErr ? (<p className={`text-red-500 font-bold my-1`}>{loginErr}</p>) : null
+    let isAnyErr = !emailErr && !nameErr && !passErr && !loginErr
+
     let regBlock = spinner ?? (
         <form onSubmit={(e)=>submit(e)}>
             <input type="text"
-                   onChange={(e)=>setName(e.target.value)}
-                   className="px-4 py-3 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   onChange={(e)=>changeData(e,'name')}
+                   className={`${nameErr ? errorClass : ``} px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                    placeholder="Введите имя"/>
+            {nameErrBlock}
 
             <input type="text"
-                   onChange={(e)=>setLogin(e.target.value)}
-                   className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   onChange={(e)=>changeData(e,'login')}
+                   className={`${loginErr ? errorClass : ``} px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                    placeholder="Введите логин"/>
+            {loginErrBlock}
 
             <input type="email"
-                   onChange={(e)=>setEmail(e.target.value)}
-                   className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   onChange={(e)=>changeData(e,'email')}
+                   className={`${emailErr ? errorClass : ``} px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                    placeholder="Введите почту"/>
+            {emailErrBlock}
+
+            <input type="number"
+                   onChange={(e)=>changeData(e,'phone')}
+                   className={`px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
+                   placeholder="Введите номер телефона"/>
 
             <input type="password"
-                   onChange={(e)=>setPass(e.target.value)}
-                   className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   onChange={(e)=>changeData(e,'pass')}
+                   className={`${passErr ? errorClass : ``} px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                    placeholder="Введите пароль"/>
+            {passErrBlock}
 
-            <button className="w-full block mt-5 px-10 py-3 bg-blue-500 rounded font-bold text-white hover:bg-blue-400 transition">
+            <button disabled={isAnyErr ? false : true} className={`${isAnyErr ? `bg-blue-500 hover:bg-blue-400`: blockedButton} w-full block mt-5 px-10 py-3 rounded font-bold text-white transition`}>
                 Регистрация
             </button>
             <Link href="/login">

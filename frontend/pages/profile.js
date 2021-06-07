@@ -39,6 +39,7 @@ export default function Action({userData, actionJson}) {
                                 <p className="py-4 text-xl font-bold text-gray-600">Имя: {userData.name}</p>
                                 <p className="py-4 text-xl font-bold text-gray-600">Логин: {userData.login}</p>
                                 <p className="py-4 text-xl font-bold text-gray-600">Почта: {userData.email}</p>
+                                <p className="py-4 text-xl font-bold text-gray-600">Почта: {userData.phone}</p>
                             </div>
                             <div className="w-1/3 ml-10  rounded-md border-2 shadow-lg px-8 py-4">
                                 <h1 className="flex items-center text-gray-900 font-bold text-2xl">

@@ -17,7 +17,8 @@ export const isUserAuth = async (req, res)=>{
                 let jsonUser = {
                     name: findedUser.name,
                     email: findedUser.email,
-                    login: findedUser.login
+                    login: findedUser.login,
+                    phone: findedUser.phone
                 }
 
                 res.status(200).json({

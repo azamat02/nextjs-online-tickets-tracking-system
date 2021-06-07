@@ -69,7 +69,7 @@ export default function ReqPage({userData}) {
                         <div className="mt-7">
                             <form onSubmit={(e)=>submit(e)}>
                                 <input type="text"
-                                       onChange={(e)=>setNameg(e.target.value)}
+                                       onChange={(e)=>setName(e.target.value)}
                                        className="px-4 py-3 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                        placeholder="Введите имя"/>
 

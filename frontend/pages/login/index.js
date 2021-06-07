@@ -6,11 +6,13 @@ import axios from "axios";
 import swal from 'sweetalert'
 import Spinner from "../../components/spinner/spinner";
 import Router from 'next/router'
+import ApiService from "../../services/apiService";
 
 export default function Login({userData}){
     const [login, setLogin] = useState();
     const [pass, setPass] = useState();
     const [spinner, setSpinner] = useState(null)
+    let api = new ApiService()
 
     useEffect(()=>{
         if (userData !== null){
@@ -43,7 +45,7 @@ export default function Login({userData}){
 
         setSpinner(<Spinner/>)
 
-        let res = await axios.post('http://89.223.24.146:4200/api/login', userData, { withCredentials: true })
+        let res = await api.loginUser(userData)
         let message = res.data.message
 
         setSpinner(null)

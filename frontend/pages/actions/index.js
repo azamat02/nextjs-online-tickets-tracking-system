@@ -13,17 +13,19 @@ import {
     LocationMarkerIcon
 } from "@heroicons/react/outline";
 import Router from "next/router";
+import ApiService from "../../services/apiService";
 
 
 export default function AllActions({userData}) {
     const [allActions, setAllActions] = useState(null)
     const [activeCategory, setActiveCategory] = useState('all')
+    let api = new ApiService()
 
     useEffect(()=>{
         if (allActions === null) {
             (
                 async ()=>{
-                    let res = await axios.get('http://89.223.24.146:4200/api/actions')
+                    let res = await api.getAllActions()
                     setAllActions(res.data)
                 }
             )();

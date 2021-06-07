@@ -3,16 +3,18 @@ import {useState} from "react";
 import Spinner from "../spinner/spinner";
 import axios from "axios";
 import {LogoutIcon} from "@heroicons/react/outline";
+import ApiService from "../../services/apiService";
 
 export default function Navbar({activeLink, userData}) {
     let links
+    let api = new ApiService()
 
     if (userData === null) {
         return <Spinner/>
     }
 
     let logout = async () => {
-        await axios.get('http://89.223.24.146:4200/api/logout', { withCredentials: true })
+        await api.logoutUser()
         location.href = '/'
     }
 

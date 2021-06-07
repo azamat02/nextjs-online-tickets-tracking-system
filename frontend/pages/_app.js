@@ -1,15 +1,17 @@
 import '../styles/globals.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
+import ApiService from "../services/apiService";
 
 export default function MyApp({ Component, pageProps }) {
     const [userData, setUserData] = useState(null)
+    let api = new ApiService()
 
     useEffect(()=>{
         if (userData === null){
             (
                 async ()=>{
-                    let res = await axios.get('http://89.223.24.146:4200/api/auth', { withCredentials: true })
+                    let res = await api.isAuth()
                     let message = res.data.message
                     if (message === 'Authenticated') {
                         setUserData(res.data.userData)

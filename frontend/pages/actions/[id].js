@@ -15,6 +15,7 @@ import {act} from "react-dom/test-utils";
 import axios from "axios";
 import Spinner from "../../components/spinner/spinner";
 import AnalyticsChart from "../../components/chart/analytics-chart";
+import ApiService from "../../services/apiService";
 
 
 export default function Action({userData, actionJson}) {
@@ -97,8 +98,9 @@ export default function Action({userData, actionJson}) {
 }
 
 Action.getInitialProps = async (ctx)=>{
+    let api = new ApiService()
     let id = ctx.query.id
-    let res = await axios.get(`http://89.223.24.146:4200/api/actions/${id}`)
+    let res = await api.getAction(id)
     return {
         actionJson: res.data
     }

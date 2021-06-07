@@ -7,6 +7,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import Router from "next/router";
 import Footer from "../../components/footer/footer";
+import ApiService from "../../services/apiService";
 
 export default function ReqPage({userData}) {
     const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ export default function ReqPage({userData}) {
     const [login, setLogin] = useState('');
     const [pass, setPass] = useState('');
     const [spinner, setSpinner] = useState(null)
+    let api = new ApiService()
 
     useEffect(()=>{
         if (userData !== null){
@@ -37,9 +39,13 @@ export default function ReqPage({userData}) {
                 email: email
             }
 
-            setSpinner(<Spinner/>)
+            setSpinner(
+                <div className="m-24">
+                    <Spinner/>
+                </div>
+            )
 
-            let res = await axios.post('http://89.223.24.146:4200/api/register', userData, { withCredentials: true })
+            let res = await api.registerUser(userData)
             let message = res.data.message
 
             setSpinner(null)
@@ -54,6 +60,37 @@ export default function ReqPage({userData}) {
         }
     }
 
+    let regBlock = spinner ?? (
+        <form onSubmit={(e)=>submit(e)}>
+            <input type="text"
+                   onChange={(e)=>setName(e.target.value)}
+                   className="px-4 py-3 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   placeholder="Введите имя"/>
+
+            <input type="text"
+                   onChange={(e)=>setLogin(e.target.value)}
+                   className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   placeholder="Введите логин"/>
+
+            <input type="email"
+                   onChange={(e)=>setEmail(e.target.value)}
+                   className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   placeholder="Введите почту"/>
+
+            <input type="password"
+                   onChange={(e)=>setPass(e.target.value)}
+                   className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                   placeholder="Введите пароль"/>
+
+            <button className="w-full block mt-5 px-10 py-3 bg-blue-500 rounded font-bold text-white hover:bg-blue-400 transition">
+                Регистрация
+            </button>
+            <Link href="/login">
+                <p className="mt-2 cursor-pointer text-blue-500 underline text-center">Есть аккаунт? Войти</p>
+            </Link>
+        </form>
+    )
+
     return (
         <>
             <Head>
@@ -67,34 +104,7 @@ export default function ReqPage({userData}) {
                     <div className="px-10 py-10 mt-5 border-gray-100 border-2 rounded-md shadow-lg w-1/2">
                         <h1 className="text-xl font-bold text-gray-900 text-center">Регистрация</h1>
                         <div className="mt-7">
-                            <form onSubmit={(e)=>submit(e)}>
-                                <input type="text"
-                                       onChange={(e)=>setName(e.target.value)}
-                                       className="px-4 py-3 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                       placeholder="Введите имя"/>
-
-                                <input type="text"
-                                       onChange={(e)=>setLogin(e.target.value)}
-                                       className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                       placeholder="Введите логин"/>
-
-                                <input type="email"
-                                       onChange={(e)=>setEmail(e.target.value)}
-                                       className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                       placeholder="Введите почту"/>
-
-                                <input type="password"
-                                       onChange={(e)=>setPass(e.target.value)}
-                                       className="px-4 py-3 mt-5 placeholder-gray-600 w-full font-medium rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                       placeholder="Введите пароль"/>
-
-                                <button className="w-full block mt-5 px-10 py-3 bg-blue-500 rounded font-bold text-white hover:bg-blue-400 transition">
-                                    Регистрация
-                                </button>
-                                <Link href="/login">
-                                    <p className="mt-2 cursor-pointer text-blue-500 underline text-center">Есть аккаунт? Войти</p>
-                                </Link>
-                            </form>
+                            {regBlock}
                         </div>
                     </div>
                 </div>

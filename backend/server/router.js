@@ -1,6 +1,14 @@
 import {Router} from 'express'
 import {createAction, getAllActions, getOneAction} from "./controllers/actions.js";
-import {isUserAuth, loginUser, logoutUser, registerUser} from "./controllers/auth.js";
+import {
+    deleteUserById,
+    getAllUsers,
+    isAdmin,
+    isUserAuth,
+    loginUser,
+    logoutUser,
+    registerUser
+} from "./controllers/auth.js";
 import {
     createNotification,
     getAllNotifications,
@@ -25,6 +33,9 @@ router.post('/api/notifications', createNotification)
 router.post('/api/login', loginUser)
 router.post('/api/register', registerUser)
 router.get('/api/auth', isUserAuth)
+router.get('/api/users', getAllUsers)
+router.get('/api/users/delete/:id', deleteUserById)
 router.get('/api/logout', logoutUser)
+router.get('/api/admin', isAdmin)
 
 export default router

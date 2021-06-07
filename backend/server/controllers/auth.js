@@ -4,6 +4,68 @@ import jwt from 'jsonwebtoken'
 import cryptoJs from 'crypto-js'
 
 const KEY = "secret"
+const adminID = '60be87a5ba73214248844669'
+
+export const getAllUsers = async (req, res)=>{
+    let token = req.cookies.token
+    let isAdmin = false
+
+    try {
+        jwt.verify(token, KEY, async function (err, decode) {
+            if (!err && decode){
+                let userId = decode.id
+
+                if (userId == adminID) {
+                    isAdmin = true
+                }
+            }
+        })
+    } catch (err){
+        console.log("500| Internal server error ")
+    }
+
+    if (isAdmin) {
+        const users = await User.find({})
+        res.status(200).json(users)
+    } else {
+        res.status(200).json({
+            message: "Permission denied"
+        })
+    }
+}
+
+export const deleteUserById = async (req, res)=>{
+    let token = req.cookies.token
+    let isAdmin = false
+
+    try {
+        jwt.verify(token, KEY, async function (err, decode) {
+            if (!err && decode){
+                let userId = decode.id
+
+                if (userId == adminID) {
+                    isAdmin = true
+                }
+            }
+        })
+    } catch (err){
+        console.log("500| Internal server error ")
+    }
+
+    if (isAdmin) {
+        const user = await User.findById(req.params.id)
+        await user.remove()
+        res.status(200).json({
+            message: "OK"
+        })
+        return
+    } else {
+        res.status(200).json({
+            message: "Permission denied"
+        })
+        return
+    }
+}
 
 export const isUserAuth = async (req, res)=>{
     let token = req.cookies.token
@@ -25,6 +87,35 @@ export const isUserAuth = async (req, res)=>{
                 res.status(200).json({
                     userData: jsonUser,
                     message: "Authenticated"
+                })
+                return
+            }
+
+            res.status(200).json({
+                message: "Not authenticated"
+            })
+        })
+    } catch (err){
+        console.log("500| Internal server error ")
+    }
+}
+
+export const isAdmin = async (req, res)=>{
+    let token = req.cookies.token
+
+    try {
+        jwt.verify(token, KEY, async function (err, decode) {
+            if (!err && decode){
+                let userId = decode.id
+
+                if (userId == adminID) {
+                    res.status(200).json({
+                        message: "Admin"
+                    })
+                    return
+                }
+                res.status(200).json({
+                    message: "Not admin"
                 })
                 return
             }

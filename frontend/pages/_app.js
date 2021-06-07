@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
 import ApiService from "../services/apiService";
+import Spinner from "../components/spinner/spinner";
 
 export default function MyApp({ Component, pageProps }) {
     const [userData, setUserData] = useState(null)
@@ -22,6 +23,10 @@ export default function MyApp({ Component, pageProps }) {
             )();
         }
     },[userData])
+
+    if (userData === null) {
+        return <Spinner/>
+    }
 
     return <Component {...pageProps} userData={userData}/>
 }

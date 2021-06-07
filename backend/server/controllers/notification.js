@@ -35,7 +35,9 @@ export const createNotification = async (req, res) => {
     const notification = new Notification(req.body)
 
     let date = new Date(Date.now()+(3600000*6))
-    let stringDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+    let currentHours = date.getHours()-6;
+    currentHours = ("0" + currentHours).slice(-2);
+    let stringDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} в ${currentHours}:${date.getMinutes()}`
     notification.date = stringDate
 
     await notification.save()

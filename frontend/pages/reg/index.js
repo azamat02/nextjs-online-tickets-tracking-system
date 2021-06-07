@@ -39,7 +39,7 @@ export default function ReqPage({userData}) {
 
             setSpinner(<Spinner/>)
 
-            let res = await axios.post('http://localhost:4200/api/register', userData, { withCredentials: true })
+            let res = await axios.post('http://89.223.24.146:4200/api/register', userData, { withCredentials: true })
             let message = res.data.message
 
             setSpinner(null)

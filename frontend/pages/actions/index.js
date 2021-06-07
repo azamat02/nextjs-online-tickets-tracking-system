@@ -23,7 +23,7 @@ export default function AllActions({userData}) {
         if (allActions === null) {
             (
                 async ()=>{
-                    let res = await axios.get('http://localhost:4200/api/actions')
+                    let res = await axios.get('http://89.223.24.146:4200/api/actions')
                     setAllActions(res.data)
                 }
             )();

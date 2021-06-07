@@ -12,7 +12,7 @@ export default function Navbar({activeLink, userData}) {
     }
 
     let logout = async () => {
-        await axios.get('http://localhost:4200/api/logout', { withCredentials: true })
+        await axios.get('http://89.223.24.146:4200/api/logout', { withCredentials: true })
         location.href = '/'
     }
 

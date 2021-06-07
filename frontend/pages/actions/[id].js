@@ -72,7 +72,7 @@ export default function Action({userData, actionJson}) {
                 {/*Tickets analytics chart*/}
                 <div className="mb-44">
                     <h1 className="font-bold text-2xl text-gray-900 my-5 border-l-4 px-5 py-2 bg-gray-200 mb-2 border-gray-900">
-                        Аналитика билетов за последние 10 дней
+                        Аналитика билетов за последние {days} дней
                     </h1>
                     <div className="my-5">
                         <button onClick={()=>setDays(10)} className={`${days === 10 ? `bg-blue-800`: ``} focus:outline-none hover:bg-blue-400 transition font-bold text-white px-8 py-2 bg-blue-500 rounded-md mr-5`}>

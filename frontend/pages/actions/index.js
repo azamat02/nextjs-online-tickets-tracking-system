@@ -14,11 +14,13 @@ import {
 } from "@heroicons/react/outline";
 import Router from "next/router";
 import ApiService from "../../services/apiService";
+import swal from "sweetalert";
 
 
 export default function AllActions({userData}) {
     const [allActions, setAllActions] = useState(null)
     const [activeCategory, setActiveCategory] = useState('all')
+    const [showButton, setShowButton] = useState(false)
     let api = new ApiService()
 
     useEffect(()=>{
@@ -31,6 +33,15 @@ export default function AllActions({userData}) {
             )();
         }
     })
+
+    useEffect(()=>{
+        if (userData !== null){
+            if (userData !== false){
+                setShowButton(true)
+            }
+        }
+    })
+
 
     if (!allActions) {
         return (
@@ -64,10 +75,12 @@ export default function AllActions({userData}) {
                             <CashIcon className="w-8 h-8 mr-1"/>
                             <span>{elem.cost} &#8376;</span>
                         </h1>
-                        <button onClick={()=>Router.push(`/actions/${elem._id}`)} className="bg-green-500 px-4 py-2 rounded-md transition hover:bg-green-400 text-white font-bold flex items-center">
-                            <span>Подробнее</span>
-                            <ChevronRightIcon className="w-5 h-5 ml-2"/>
-                        </button>
+                        {showButton ? (
+                            <button onClick={()=>Router.push(`/actions/${elem._id}`)} className="bg-green-500 px-4 py-2 rounded-md transition hover:bg-green-400 text-white font-bold flex items-center">
+                                <span>Подробнее</span>
+                                <ChevronRightIcon className="w-5 h-5 ml-2"/>
+                            </button>
+                        ) : ``}
                     </div>
                 </div>
             </div>

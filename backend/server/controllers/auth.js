@@ -15,6 +15,7 @@ export const isUserAuth = async (req, res)=>{
 
                 let findedUser = await User.findById(userId)
                 let jsonUser = {
+                    id: findedUser._id,
                     name: findedUser.name,
                     email: findedUser.email,
                     login: findedUser.login,

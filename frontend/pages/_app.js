@@ -9,7 +9,7 @@ export default function MyApp({ Component, pageProps }) {
         if (userData === null){
             (
                 async ()=>{
-                    let res = await axios.get('http://localhost:4200/api/auth', { withCredentials: true })
+                    let res = await axios.get('http://0.0.0.0:4200/api/auth', { withCredentials: true })
                     let message = res.data.message
                     if (message === 'Authenticated') {
                         setUserData(res.data.userData)
